@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
@@ -48,6 +51,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import android.view.View.OnKeyListener;
+import android.view.View;
+import android.view.KeyEvent;
+import android.widget.TextView.OnEditorActionListener;
+import android.view.inputmethod.InputMethodManager;
 
 /** An activity for selecting from a list of media samples. */
 public class SampleChooserActivity extends Activity
@@ -65,6 +73,10 @@ public class SampleChooserActivity extends Activity
     sampleAdapter = new SampleAdapter();
     ExpandableListView sampleListView = findViewById(R.id.sample_list);
     sampleListView.setAdapter(sampleAdapter);
+
+
+// TSCHULTZ    sampleListView.setItemsCanFocus(true);
+
     sampleListView.setOnChildClickListener(this);
 
     Intent intent = getIntent();
@@ -128,9 +140,12 @@ public class SampleChooserActivity extends Activity
   @Override
   public boolean onChildClick(
       ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-    Sample sample = (Sample) view.getTag();
-    startActivity(sample.buildIntent(this));
-    return true;
+
+    EditText sampleUri = view.findViewById(R.id.sample_uri);
+    sampleUri.setFocusable(true);
+      sampleUri.requestFocus();
+
+      return true;
   }
 
   private void onSampleDownloadButtonClicked(Sample sample) {
@@ -148,6 +163,7 @@ public class SampleChooserActivity extends Activity
     if (sample instanceof PlaylistSample) {
       return R.string.download_playlist_unsupported;
     }
+
     UriSample uriSample = (UriSample) sample;
     if (uriSample.drmInfo != null) {
       return R.string.download_drm_unsupported;
@@ -336,7 +352,7 @@ public class SampleChooserActivity extends Activity
 
   }
 
-  private final class SampleAdapter extends BaseExpandableListAdapter implements OnClickListener {
+  private final class SampleAdapter extends BaseExpandableListAdapter  {
 
     private List<SampleGroup> sampleGroups;
 
@@ -363,13 +379,31 @@ public class SampleChooserActivity extends Activity
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
         View convertView, ViewGroup parent) {
       View view = convertView;
-      if (view == null) {
-        view = getLayoutInflater().inflate(R.layout.sample_list_item, parent, false);
-        View downloadButton = view.findViewById(R.id.download_button);
-        downloadButton.setOnClickListener(this);
-        downloadButton.setFocusable(false);
+
+      if (view == null) { view = getLayoutInflater().inflate(R.layout.sample_list_item, parent, false);
+        View playButton = view.findViewById(R.id.play_button);
+
+        final View x = view;
+        playButton.setOnClickListener(new View.OnClickListener() {
+              public void onClick(View v) {
+                  Sample sample = (Sample) x.getTag();
+
+                  startActivity(sample.buildIntent(getApplicationContext()));
+              }
+          });
+
+        /*
+              onSampleDownloadButtonClicked((Sample) view.getTag());
+
+         */
+
+          playButton.setFocusable(false);
+
       }
+
       initializeChildView(view, getChild(groupPosition, childPosition));
+
+
       return view;
     }
 
@@ -416,24 +450,95 @@ public class SampleChooserActivity extends Activity
       return true;
     }
 
-    @Override
-    public void onClick(View view) {
-      onSampleDownloadButtonClicked((Sample) view.getTag());
-    }
+      public void hideKeyboard(View view) {
+          InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+          inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY );
+      }
 
     private void initializeChildView(View view, Sample sample) {
       view.setTag(sample);
       TextView sampleTitle = view.findViewById(R.id.sample_title);
       sampleTitle.setText(sample.name);
 
-      boolean canDownload = getDownloadUnsupportedStringId(sample) == 0;
-      boolean isDownloaded = canDownload && downloadTracker.isDownloaded(((UriSample) sample).uri);
+      final EditText sampleUri = view.findViewById(R.id.sample_uri);
+      sampleUri.setText(((UriSample) sample).uri.toString());
+
+
+        sampleUri.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    sampleUri.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(sampleUri, InputMethodManager.SHOW_IMPLICIT);
+                        }
+                    });
+                }
+                else
+                {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+      final Button playButton = view.findViewById(R.id.play_button);
+
+      sampleUri.setOnKeyListener(new OnKeyListener() {
+
+          public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+            //If the keyevent is a key-down event on the "enter" button
+            if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                view.clearFocus();
+                view.setFocusable(false);
+
+                playButton.setFocusable(true);
+                playButton.requestFocus();
+                return true;
+            }
+            return false;
+        }
+    });
+
+      playButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+          @Override
+          public void onFocusChange(View v, boolean hasFocus) {
+              if (hasFocus) {
+                  playButton.setTextColor(0xff669900);
+              }
+              else
+                  playButton.setTextColor(0xffcc0000);
+
+
+          }
+      });
+
+        playButton.setOnKeyListener(new OnKeyListener() {
+
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                //If the keyevent is a key-down event on the "enter" button
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_TAB)) {
+                    view.clearFocus();
+                    view.setFocusable(false);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+/*
+    boolean canDownload = getDownloadUnsupportedStringId(sample) == 0;
+    boolean isDownloaded = canDownload && downloadTracker.isDownloaded(((UriSample) sample).uri);
       ImageButton downloadButton = view.findViewById(R.id.download_button);
       downloadButton.setTag(sample);
       downloadButton.setColorFilter(
           canDownload ? (isDownloaded ? 0xFF42A5F5 : 0xFFBDBDBD) : 0xFFEEEEEE);
       downloadButton.setImageResource(
           isDownloaded ? R.drawable.ic_download_done : R.drawable.ic_download);
+*/
+
     }
   }
 

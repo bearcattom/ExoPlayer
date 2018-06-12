@@ -29,10 +29,30 @@
       android:minHeight="?android:attr/listPreferredItemHeightSmall"
       android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 
-  <ImageButton android:id="@+id/download_button"
-      android:layout_width="wrap_content"
+  <EditText android:id="@+id/sample_uri"
+      android:layout_width="0dp"
+      android:layout_weight="3"
       android:layout_height="wrap_content"
-      android:contentDescription="@string/exo_download_description"
-      android:background="@android:color/transparent"/>
+      android:textAppearance="?android:attr/textAppearanceListItemSmall"
+      android:focusable="false"
+      android:nextFocusDown="@+id/play_button"
+      android:nextFocusUp="@+id/play_button"
+      android:nextFocusLeft="@+id/play_button"
+      android:nextFocusRight="@+id/play_button"
+      android:singleLine="true"
+      />
+
+    <Button
+        android:focusable="true"
+        android:id="@+id/play_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:defaultFocusHighlightEnabled="true"
+        android:contentDescription="Play"
+        android:textColor="@android:color/holo_red_dark"
+
+        android:text="Play" />
 
 </LinearLayout>
