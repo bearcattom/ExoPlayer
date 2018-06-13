@@ -44,16 +44,27 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.time.format.TextStyle;
+import java.text.DateFormat;
 import android.view.View.OnKeyListener;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import java.time.format.DateTimeFormatter;
 import java.time.ZonedDateTime;
+import java.text.SimpleDateFormat;
 import android.os.CountDownTimer;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.TimeZone;
 
 /** An activity for selecting from a list of media samples. */
 public class SampleChooserActivity extends Activity
@@ -464,7 +475,13 @@ public class SampleChooserActivity extends Activity
       sampleTitle.setText(sample.name);
 
       TextView sampleStartDateTime = view.findViewById(R.id.sample_startDateTime);
-      sampleStartDateTime.setText(((UriSample) sample).startDateTime.toString());
+
+
+      TimeZone localZone = TimeZone.getDefault();
+      ZoneId localZoneId = localZone.toZoneId();
+      ZonedDateTime ibcDateTime = ((UriSample) sample).startDateTime;
+      DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("HH:mm:ss a ");
+      sampleStartDateTime.setText(ibcDateTime.withZoneSameInstant(localZoneId).toLocalTime().format(dateFormat) + localZoneId.getDisplayName(TextStyle.FULL, Locale.US));
 
 
       final EditText sampleUri = view.findViewById(R.id.sample_uri);
