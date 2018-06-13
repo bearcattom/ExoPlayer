@@ -19,21 +19,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.exoplayer2.ParserException;
@@ -52,10 +49,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import android.view.View.OnKeyListener;
-import android.view.View;
 import android.view.KeyEvent;
-import android.widget.TextView.OnEditorActionListener;
 import android.view.inputmethod.InputMethodManager;
+import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
+import android.os.CountDownTimer;
 
 /** An activity for selecting from a list of media samples. */
 public class SampleChooserActivity extends Activity
@@ -73,9 +71,6 @@ public class SampleChooserActivity extends Activity
     sampleAdapter = new SampleAdapter();
     ExpandableListView sampleListView = findViewById(R.id.sample_list);
     sampleListView.setAdapter(sampleAdapter);
-
-
-// TSCHULTZ    sampleListView.setItemsCanFocus(true);
 
     sampleListView.setOnChildClickListener(this);
 
@@ -250,6 +245,11 @@ public class SampleChooserActivity extends Activity
     private Sample readEntry(JsonReader reader, boolean insidePlaylist) throws IOException {
       String sampleName = null;
       Uri uri = null;
+//      DateTime dateTime = new DateTime( "2011-04-15T20:08:18Z" );
+      DateTimeFormatter dtFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+      ZonedDateTime startDateTime = null;
+
+
       String extension = null;
       String drmScheme = null;
       String drmLicenseUrl = null;
@@ -269,6 +269,9 @@ public class SampleChooserActivity extends Activity
             break;
           case "uri":
             uri = Uri.parse(reader.nextString());
+            break;
+          case "startDateTime":
+              startDateTime = ZonedDateTime.parse(reader.nextString(), dtFormatter);
             break;
           case "extension":
             extension = reader.nextString();
@@ -335,7 +338,7 @@ public class SampleChooserActivity extends Activity
             sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, playlistSamplesArray);
       } else {
         return new UriSample(
-            sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, uri, extension, adTagUri);
+            sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, uri, extension, startDateTime, adTagUri);
       }
     }
 
@@ -460,8 +463,13 @@ public class SampleChooserActivity extends Activity
       TextView sampleTitle = view.findViewById(R.id.sample_title);
       sampleTitle.setText(sample.name);
 
+      TextView sampleStartDateTime = view.findViewById(R.id.sample_startDateTime);
+      sampleStartDateTime.setText(((UriSample) sample).startDateTime.toString());
+
+
       final EditText sampleUri = view.findViewById(R.id.sample_uri);
       sampleUri.setText(((UriSample) sample).uri.toString());
+
 
 
         sampleUri.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -610,6 +618,7 @@ public class SampleChooserActivity extends Activity
 
     public final Uri uri;
     public final String extension;
+    public final ZonedDateTime startDateTime;
     public final String adTagUri;
 
     public UriSample(
@@ -619,10 +628,12 @@ public class SampleChooserActivity extends Activity
         DrmInfo drmInfo,
         Uri uri,
         String extension,
+        ZonedDateTime startDateTime,
         String adTagUri) {
       super(name, preferExtensionDecoders, abrAlgorithm, drmInfo);
       this.uri = uri;
       this.extension = extension;
+      this.startDateTime = startDateTime;
       this.adTagUri = adTagUri;
     }
 

@@ -15,7 +15,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-  <string name="application_name">ExoPlayer</string>
+  <string name="application_name">📅⏰📺📡️⚽️🌏🇷🇺🏆🦊</string>
 
   <string name="unexpected_intent_action">Unexpected intent action: <xliff:g id="action">%1$s</xliff:g></string>
 
