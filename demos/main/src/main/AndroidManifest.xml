@@ -15,14 +15,15 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.exoplayer2.demo">
+    package="com.foxsports.worldcup.streamtest">
 
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-  <uses-feature android:name="android.software.leanback" android:required="false"/>
+
+  <uses-feature android:name="android.software.leanback" android:required="true"/>
   <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
   <uses-sdk/>
 
@@ -32,15 +33,14 @@
       android:banner="@drawable/ic_banner"
       android:largeHeap="true"
       android:allowBackup="false"
-      android:name="com.google.android.exoplayer2.demo.DemoApplication">
+      android:name="com.foxsports.worldcup.streamtest.DemoApplication">
 
-    <activity android:name="com.google.android.exoplayer2.demo.SampleChooserActivity"
-
+    <activity android:name="com.foxsports.worldcup.streamtest.SampleChooserActivity"
+        android:hardwareAccelerated="true"
         android:configChanges="keyboardHidden"
         android:label="@string/application_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
         <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
       </intent-filter>
       <intent-filter>
@@ -57,13 +57,13 @@
       </intent-filter>
     </activity>
 
-    <activity android:name="com.google.android.exoplayer2.demo.PlayerActivity"
+    <activity android:name="com.foxsports.worldcup.streamtest.PlayerActivity"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
         android:launchMode="singleTop"
         android:label="@string/application_name"
         android:theme="@style/PlayerTheme">
       <intent-filter>
-        <action android:name="com.google.android.exoplayer.demo.action.VIEW"/>
+        <action android:name="com.foxsports.worldcup.streamtest.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <data android:scheme="http"/>
         <data android:scheme="https"/>
@@ -77,7 +77,7 @@
       </intent-filter>
     </activity>
 
-    <service android:name="com.google.android.exoplayer2.demo.DemoDownloadService"
+    <service android:name="com.foxsports.worldcup.streamtest.DemoDownloadService"
         android:exported="false">
       <intent-filter>
         <action android:name="com.google.android.exoplayer.downloadService.action.INIT"/>
