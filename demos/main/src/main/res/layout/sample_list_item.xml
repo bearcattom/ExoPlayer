@@ -53,7 +53,8 @@
       android:singleLine="true"
       />
 
-    <Button
+
+  <Button
         android:focusable="true"
         android:id="@+id/play_button"
         android:layout_width="0dp"
