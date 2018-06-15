@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         versionName project.ext.releaseVersion
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion project.ext.targetSdkVersion
     }
 
@@ -28,10 +28,6 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
-            proguardFiles = [
-                "proguard-rules.txt",
-                getDefaultProguardFile('proguard-android.txt')
-            ]
         }
         debug {
             jniDebuggable = true
@@ -43,16 +39,6 @@ android {
         disable 'MissingTranslation'
     }
 
-    flavorDimensions "extensions"
-
-    productFlavors {
-        noExtensions {
-            dimension "extensions"
-        }
-        withExtensions {
-            dimension "extensions"
-        }
-    }
 }
 
 dependencies {

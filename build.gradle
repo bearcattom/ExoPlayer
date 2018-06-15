@@ -20,29 +20,12 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'com.novoda:bintray-release:0.8.1'
     }
-    // Workaround for the following test coverage issue. Remove when fixed:
-    // https://code.google.com/p/android/issues/detail?id=226070
-    configurations.all {
-        resolutionStrategy {
-            force 'org.jacoco:org.jacoco.report:0.7.4.201502262128'
-            force 'org.jacoco:org.jacoco.core:0.7.4.201502262128'
-        }
-    }
 }
 allprojects {
     repositories {
         google()
         jcenter()
     }
-    project.ext {
-        exoplayerPublishEnabled = true
-    }
-    if (it.hasProperty('externalBuildDir')) {
-        if (!new File(externalBuildDir).isAbsolute()) {
-            externalBuildDir = new File(rootDir, externalBuildDir)
-        }
-        buildDir = "${externalBuildDir}/${project.name}"
-    }
+
 }
 
-apply from: 'javadoc_combined.gradle'
