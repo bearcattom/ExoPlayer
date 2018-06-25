@@ -3,13 +3,8 @@
     "name": "JUNE 14th",
     "samples": [
       {
-        "name": "1️⃣ 🇷🇺 🆚 🇸🇦",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/652796_DN_0614-fox/master.m3u8",
-        "startDateTime": "2018-06-14T16:55:00+03:00[UTC+03:00]"
-      },
-      {
-        "name": "1️⃣ 🇷🇺 🆚 🇸🇦 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/652796b_DN_0614-fox/master.m3u8",
+        "name": "1️⃣ 🇷🇺 🆚 🇸🇦 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108549-fox/master.m3u8",
         "startDateTime": "2018-06-14T16:55:00+03:00[UTC+03:00]"
       }
     ]
@@ -18,33 +13,18 @@
     "name": "JUNE 15th",
     "samples": [
       {
-        "name": "2️⃣ 🇪🇬 🆚 🇺🇾",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108548-fox/master.m3u8",
+        "name": "2️⃣ 🇪🇬 🆚 🇺🇾 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108548-fox/master.m3u8",
         "startDateTime": "2018-06-15T13:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "2️⃣ 🇪🇬 🆚 🇺🇾 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108548-fox/master.m3u8",
-        "startDateTime": "2018-06-15T13:55:00+03:00[UTC+03:00]"
-      },
-      {
-        "name": "4️⃣ 🇲🇦 🆚 🇮🇷",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/664059/108554-fox/master.m3u8",
+        "name": "4️⃣ 🇲🇦 🆚 🇮🇷 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/664059/108554-fox/master.m3u8",
         "startDateTime": "2018-06-15T16:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "4️⃣ 🇲🇦 🆚 🇮🇷 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/664059-b/108554-fox/master.m3u8",
-        "startDateTime": "2018-06-15T16:55:00+03:00[UTC+03:00]"
-      },
-      {
-        "name": "3️⃣ 🇵🇹 🆚 🇪🇸",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108555-fox/master.m3u8",
-        "startDateTime": "2018-06-15T19:55:00+03:00[UTC+03:00]"
-      },
-      {
-        "name": "3️⃣ 🇵🇹 🆚 🇪🇸 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108555-fox/master.m3u8",
+        "name": "3️⃣ 🇵🇹 🆚 🇪🇸 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108555-fox/master.m3u8",
         "startDateTime": "2018-06-15T19:55:00+03:00[UTC+03:00]"
       }
     ]
@@ -53,44 +33,24 @@
     "name": "JUNE 16th",
     "samples": [
       {
-        "name": "5️⃣ 🇫🇷 🆚 🇦🇺",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "5️⃣ 🇫🇷 🆚 🇦🇺 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108561-fox/master.m3u8",
+        "startDateTime": "2018-06-16T11:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "5️⃣ 🇫🇷 🆚 🇦🇺 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "7️⃣ 🇦🇷 🆚 🇮🇸 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/664059/108566-fox/master.m3u8",
+        "startDateTime": "2018-06-16T14:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "7️⃣ 🇦🇷 🆚 🇮🇸",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "6️⃣ 🇵🇪 🆚 🇩🇰 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108560-fox/master.m3u8",
+        "startDateTime": "2018-06-16T17:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "7️⃣ 🇦🇷 🆚 🇮🇸 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "6️⃣ 🇵🇪 🆚 🇩🇰",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "6️⃣ 🇵🇪 🆚 🇩🇰 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "8️⃣ 🇭🇷 🆚 🇳🇬",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "8️⃣ 🇭🇷 🆚 🇳🇬 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "8️⃣ 🇭🇷 🆚 🇳🇬 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/664059/108567-fox/master.m3u8",
+        "startDateTime": "2018-06-16T20:55:00+03:00[UTC+03:00]"
       }
     ]
   },
@@ -98,36 +58,50 @@
     "name": "JUNE 17th",
     "samples": [
       {
-        "name": "🇨🇷 🆚 🇷🇸",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "️1️⃣0️⃣ 🇨🇷 🆚 🇷🇸 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108572-fox/master.m3u8",
+        "startDateTime": "2018-06-17T13:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "🇨🇷 🆚 🇷🇸 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "1️⃣1️⃣ 🇩🇪 🆚 🇲🇽 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/664059/108579-fox/master.m3u8",
+        "startDateTime": "2018-06-17T16:55:00+03:00[UTC+03:00]"
       },
       {
-        "name": "🇩🇪 🆚 🇲🇽",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "🇩🇪 🆚 🇲🇽 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "🇧🇷 🆚 🇨🇭",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
-      },
-      {
-        "name": "🇧🇷 🆚 🇨🇭 🚨",
-        "uri": "https://fifa2018-i.akamaihd.net/hls/live/652796-b/108549-fox/master.m3u8",
-        "startDateTime": "2018-06-14T14:00:00.000Z"
+        "name": "9️⃣ 🇧🇷 🆚 🇨🇭 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108573-fox/master.m3u8",
+        "startDateTime": "2018-06-17T19:55:00+03:00[UTC+03:00]"
       }
-
+    ]
+  },
+  {
+    "name": "JUNE 18th",
+    "samples": [
+      {
+        "name": "️1️⃣2️⃣ 🇸🇪 🆚 🇰🇷 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108578-fox/master.m3u8",
+        "startDateTime": "2018-06-18T13:55:00+03:00[UTC+03:00]"
+      },
+      {
+        "name": "️1️⃣3️⃣ 🇧🇪 🆚 🇵🇦 🎞",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/664059/108585-fox/master.m3u8",
+        "startDateTime": "2018-06-18T13:55:00+03:00[UTC+03:00]"
+      },
+      {
+        "name": "️1️⃣4️⃣ 🇹🇳 🆚 🏴 🎞󠁧󠁢󠁥󠁮󠁿",
+        "uri": "https://fifa2018-i.akamaihd.net/hls/replay/652796/108584-fox/master.m3u8",
+        "startDateTime": "2018-06-18T19:55:00+03:00[UTC+03:00]"
+      }
+    ]
+  },
+  {
+    "name": "JUNE 19th",
+    "samples": [
+      {
+        "name": "️1️⃣2️⃣ 🇸🇪 🆚 🇰🇷 🎞",
+        "uri": "",
+        "startDateTime": "2018-06-18T13:55:00+03:00[UTC+03:00]"
+      }
     ]
   }
 ]

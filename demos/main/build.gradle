@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         versionName project.ext.releaseVersion
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion project.ext.targetSdkVersion
     }
 
