@@ -61,7 +61,6 @@
       android:layout_height="wrap_content"
       android:defaultFocusHighlightEnabled="true"
       android:contentDescription="@string/tokenize_button"
-      android:textColor="@android:color/holo_red_dark"
       android:text="@string/tokenize_button" />
 
   <Button
@@ -72,7 +71,7 @@
         android:layout_height="wrap_content"
         android:defaultFocusHighlightEnabled="true"
         android:contentDescription="@string/play_button"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@android:color/holo_green_dark"
         android:text="@string/play_button" />
 
 </LinearLayout>
