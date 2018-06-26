@@ -24,7 +24,9 @@
     android:orientation="horizontal">
 
   <TextView android:id="@+id/sample_title"
+      android:focusable="false"
       android:layout_width="0dp"
+      android:nextFocusRight="@+id/sample_uri"
       android:layout_height="wrap_content"
       android:maxLines="1"
       android:layout_weight="1"
@@ -34,6 +36,7 @@
 
   <TextView android:id="@+id/sample_startDateTime"
       android:layout_width="0dp"
+      android:focusable="false"
       android:textAlignment="center"
       android:singleLine="true"
       android:layout_height="wrap_content"
@@ -42,22 +45,18 @@
       android:textSize="10sp"
       />
 
-  <EditText android:id="@+id/sample_uri"
+  <TextView android:id="@+id/sample_uri"
       android:layout_width="0dp"
       android:layout_weight="3"
       android:layout_height="wrap_content"
       android:textSize="10sp"
       android:focusable="false"
-      android:nextFocusDown="@+id/play_button"
-      android:nextFocusUp="@+id/play_button"
-      android:nextFocusLeft="@+id/play_button"
-      android:nextFocusRight="@+id/play_button"
       android:singleLine="true"
       />
-
   <Button
       android:focusable="true"
-      android:id="@+id/play_tokenize"
+      android:id="@+id/tokenize_button"
+      android:nextFocusRight="@+id/play_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:defaultFocusHighlightEnabled="true"
@@ -68,6 +67,7 @@
   <Button
         android:focusable="true"
         android:id="@+id/play_button"
+        android:nextFocusLeft="@+id/tokenize_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:defaultFocusHighlightEnabled="true"
