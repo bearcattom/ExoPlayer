@@ -394,7 +394,9 @@ public class PlayerActivity extends Activity
 
       player =
               ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, new DefaultLoadControl(), drmSessionManager);
+
       player.addListener(new PlayerEventListener());
+
       player.setPlayWhenReady(startAutoPlay);
       player.addAnalyticsListener(new EventLogger(trackSelector));
       playerView.setPlayer(player);
