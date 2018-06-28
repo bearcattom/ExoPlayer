@@ -135,6 +135,7 @@ public class PlayerActivity extends Activity
   private PlayerView playerView;
   private LinearLayout debugRootView;
   private TextView debugTextView;
+  private TextView liveTextView;
 
   private DataSource.Factory mediaDataSourceFactory;
   private SimpleExoPlayer player;
@@ -169,6 +170,7 @@ public class PlayerActivity extends Activity
     rootView.setOnClickListener(this);
     debugRootView = findViewById(R.id.controls_root);
     debugTextView = findViewById(R.id.debug_text_view);
+    liveTextView = findViewById(R.id.live_text_view);
 
     playerView = findViewById(R.id.player_view);
     playerView.setControllerVisibilityListener(this);
@@ -396,8 +398,7 @@ public class PlayerActivity extends Activity
       trackSelector.setParameters(trackSelectorParameters);
       lastSeenTrackGroupArray = null;
 
-      player =
-              ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, new DefaultLoadControl(), drmSessionManager);
+      player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, new DefaultLoadControl(), drmSessionManager);
 
       player.addListener(new PlayerEventListener() {
 
@@ -411,9 +412,12 @@ public class PlayerActivity extends Activity
             timeline.getWindow(windowCount-1, lastWindow);
 
             if (lastWindow.isDynamic) {
-              // Display LIVE Banner, Update debug
-
+                liveTextView.setVisibility(View.VISIBLE);
             }
+            else {
+                liveTextView.setVisibility(View.GONE);
+            }
+
 
 
           }

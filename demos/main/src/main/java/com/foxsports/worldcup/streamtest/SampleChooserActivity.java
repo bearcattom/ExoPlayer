@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -229,6 +230,7 @@ public class SampleChooserActivity extends Activity
 
     private void readSampleGroup(JsonReader reader, List<SampleGroup> groups) throws IOException {
       String groupName = "";
+      boolean concluded = false;
       ArrayList<Sample> samples = new ArrayList<>();
 
       reader.beginObject();
@@ -238,6 +240,10 @@ public class SampleChooserActivity extends Activity
           case "name":
             groupName = reader.nextString();
             break;
+
+            case "concluded":
+                concluded = reader.nextBoolean();
+                break;
           case "samples":
             reader.beginArray();
             while (reader.hasNext()) {
@@ -254,7 +260,7 @@ public class SampleChooserActivity extends Activity
       }
       reader.endObject();
 
-      SampleGroup group = getGroup(groupName, groups);
+      SampleGroup group = getGroup(groupName, concluded, groups);
       group.samples.addAll(samples);
     }
 
@@ -362,13 +368,13 @@ public class SampleChooserActivity extends Activity
       }
     }
 
-    private SampleGroup getGroup(String groupName, List<SampleGroup> groups) {
+    private SampleGroup getGroup(String groupName, boolean concluded, List<SampleGroup> groups) {
       for (int i = 0; i < groups.size(); i++) {
         if (Util.areEqual(groupName, groups.get(i).title)) {
           return groups.get(i);
         }
       }
-      SampleGroup group = new SampleGroup(groupName);
+      SampleGroup group = new SampleGroup(groupName, concluded);
       groups.add(group);
       return group;
     }
@@ -577,7 +583,18 @@ public class SampleChooserActivity extends Activity
             getLayoutInflater()
                 .inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
       }
-      ((TextView) view).setText(getGroup(groupPosition).title);
+
+      SampleGroup group = getGroup(groupPosition);
+      ((TextView) view).setText(group.title);
+
+      if (group.concluded) {
+          ((TextView) view).setTextColor(Color.parseColor("lightgrey"));
+      }
+      else {
+          ((TextView) view).setTextColor(Color.parseColor("black"));
+
+      }
+
       return view;
     }
 
@@ -612,7 +629,7 @@ public class SampleChooserActivity extends Activity
         sampleTitle.setText(sample.name);
 
         // Reference the Start Date/Time TextView
-        TextView sampleStartDateTime = view.findViewById(R.id.sample_startDateTime);
+      //  TextView sampleStartDateTime = view.findViewById(R.id.sample_startDateTime);
 
         // Set the Start Date/Time value, if available
         if (((UriSample) sample).startDateTime != null)
@@ -634,7 +651,7 @@ public class SampleChooserActivity extends Activity
       }
       else {
             // Set it to blank
-            sampleStartDateTime.setText("");
+       //     sampleStartDateTime.setText("");
         }
 
         // Reference the Views
@@ -666,10 +683,12 @@ public class SampleChooserActivity extends Activity
   private static final class SampleGroup {
 
     public final String title;
+    public final boolean concluded;
     public final List<Sample> samples;
 
-    public SampleGroup(String title) {
+    public SampleGroup(String title, boolean concluded) {
       this.title = title;
+      this.concluded = concluded;
       this.samples = new ArrayList<>();
     }
 

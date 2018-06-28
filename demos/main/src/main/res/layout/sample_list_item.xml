@@ -16,8 +16,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="20dp"
-    android:paddingLeft="20dp"
+    android:paddingStart="100dp"
+    android:paddingLeft="100dp"
     android:paddingRight="0dp"
     android:paddingEnd="0dp"
     android:gravity="center_vertical"
@@ -34,16 +34,6 @@
       android:minHeight="?android:attr/listPreferredItemHeightSmall"
       android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 
-  <TextView android:id="@+id/sample_startDateTime"
-      android:layout_width="0dp"
-      android:focusable="false"
-      android:textAlignment="center"
-      android:singleLine="true"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:gravity="center_vertical"
-      android:textSize="10sp"
-      />
 
     <TextView android:id="@+id/sample_uri"
       android:layout_width="0dp"
