@@ -16,16 +16,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="100dp"
-    android:paddingLeft="100dp"
-    android:paddingRight="0dp"
-    android:paddingEnd="0dp"
+    android:paddingStart="50dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingEnd="50dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
   <TextView android:id="@+id/sample_title"
       android:focusable="false"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:nextFocusRight="@+id/sample_uri"
       android:layout_height="wrap_content"
       android:maxLines="1"
@@ -36,6 +36,7 @@
 
 
     <TextView android:id="@+id/sample_uri"
+        android:textAlignment="textStart"
       android:layout_width="0dp"
       android:layout_weight="3"
       android:layout_height="wrap_content"
@@ -45,6 +46,7 @@
       />
 
     <EditText android:id="@+id/sample_uri_edit"
+        android:textAlignment="textStart"
         android:visibility="gone"
         android:layout_width="0dp"
         android:inputType="textUri"
@@ -67,14 +69,13 @@
       android:text="@string/tokenize_button" />
 
   <Button
-        android:focusable="true"
+      android:focusable="true"
         android:id="@+id/play_button"
         android:nextFocusLeft="@+id/tokenize_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:defaultFocusHighlightEnabled="true"
         android:contentDescription="@string/play_button"
-        android:textColor="@android:color/holo_red_dark"
         android:text="@string/play_button" />
 
 </LinearLayout>

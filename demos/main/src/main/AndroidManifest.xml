@@ -39,6 +39,7 @@
 
     <activity android:name="com.foxsports.worldcup.streamtest.SampleChooserActivity"
         android:hardwareAccelerated="true"
+        android:theme="@style/SampleListTheme"
         android:configChanges="keyboardHidden"
         android:label="@string/application_name">
       <intent-filter>

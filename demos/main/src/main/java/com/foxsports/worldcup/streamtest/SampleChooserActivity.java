@@ -587,11 +587,12 @@ public class SampleChooserActivity extends Activity
       SampleGroup group = getGroup(groupPosition);
       ((TextView) view).setText(group.title);
 
+
       if (group.concluded) {
-          ((TextView) view).setTextColor(Color.parseColor("lightgrey"));
+          ((TextView) view).setTextColor(Color.parseColor("darkGrey"));
       }
       else {
-          ((TextView) view).setTextColor(Color.parseColor("black"));
+          ((TextView) view).setTextColor(Color.parseColor("white"));
 
       }
 
