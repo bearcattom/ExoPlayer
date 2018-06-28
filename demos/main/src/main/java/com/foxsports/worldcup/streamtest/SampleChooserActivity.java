@@ -22,12 +22,15 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.JsonReader;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +45,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,34 +86,13 @@ public class SampleChooserActivity extends Activity
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sample_chooser_activity);
+
     sampleAdapter = new SampleAdapter();
     ExpandableListView sampleListView = findViewById(R.id.sample_list);
     sampleListView.setAdapter(sampleAdapter);
     sampleListView.setItemsCanFocus(true);
-    sampleListView.setOnKeyListener(new OnKeyListener() {
 
-      public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-        //If the keyevent is a key-down event on the "enter" button
-        if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-          return false;
-        }
-        return false;
-      }
-    });
-      String mString = "";
-
-      mString.concat("VERSION.RELEASE {" + Build.VERSION.RELEASE + "}");
-      mString.concat("\nVERSION.INCREMENTAL {" + Build.VERSION.INCREMENTAL + "}");
-      mString.concat("\nVERSION.SDK {" + Build.VERSION.SDK + "}");
-      mString.concat("\nBOARD {" + Build.BOARD + "}");
-      mString.concat("\nBRAND {" + Build.BRAND + "}");
-      mString.concat("\nDEVICE {" + Build.DEVICE + "}");
-      mString.concat("\nFINGERPRINT {" + Build.FINGERPRINT + "}");
-      mString.concat("\nHOST {" + Build.HOST + "}");
-      mString.concat("\nID {" + Build.ID + "}");
-
-
-      Intent intent = getIntent();
+   Intent intent = getIntent();
     String dataUri = intent.getDataString();
 
     String[] uris;
@@ -121,7 +104,9 @@ public class SampleChooserActivity extends Activity
       try {
         for (String asset : assetManager.list("")) {
           if (asset.endsWith(".exolist.json")) {
-            uriList.add("http://hisense-fox.azurewebsites.net/streamtest/media.exolist.json");
+          //  uriList.add("http://hisense-fox.azurewebsites.net/streamtest/media.exolist.json");
+              uriList.add("asset:///" + asset);
+
           }
         }
       } catch (IOException e) {
@@ -276,10 +261,10 @@ public class SampleChooserActivity extends Activity
     private Sample readEntry(JsonReader reader, boolean insidePlaylist) throws IOException {
       String sampleName = null;
       Uri uri = null;
-//      DateTime dateTime = new DateTime( "2011-04-15T20:08:18Z" );
-      DateTimeFormatter dtFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-      ZonedDateTime startDateTime = null;
+      boolean editable = false;
+      //DateTimeFormatter dtFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
 
+      ZonedDateTime startDateTime = null;
 
       String extension = null;
       String drmScheme = null;
@@ -298,11 +283,15 @@ public class SampleChooserActivity extends Activity
           case "name":
             sampleName = reader.nextString();
             break;
-          case "uri":
-            uri = Uri.parse(reader.nextString());
-            break;
+            case "uri":
+                uri = Uri.parse(reader.nextString());
+                break;
+            case "editable":
+                editable = reader.nextBoolean();
+                break;
           case "startDateTime":
-            startDateTime = ZonedDateTime.parse(reader.nextString(), dtFormatter);
+//              startDateTime = ZonedDateTime.parse(reader.nextString(), dtFormatter);
+              reader.nextString();
             break;
           case "extension":
             extension = reader.nextString();
@@ -369,7 +358,7 @@ public class SampleChooserActivity extends Activity
             sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, playlistSamplesArray);
       } else {
         return new UriSample(
-            sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, uri, extension, startDateTime, adTagUri);
+            sampleName, preferExtensionDecoders, abrAlgorithm, drmInfo, uri, editable, extension, startDateTime, adTagUri);
       }
     }
 
@@ -427,17 +416,34 @@ public class SampleChooserActivity extends Activity
 
          }
 
-      View tokenizeButton = view.findViewById(R.id.tokenize_button);
+        View editTextView = view.findViewById(R.id.sample_uri_edit);
+        editTextView.setOnKeyListener(new OnKeyListener() {
+
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                //If the keyevent is a key-down event on the "enter" button
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    View tokenizeButton = view.getRootView().findViewById(R.id.tokenize_button);
+                    tokenizeButton.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        View tokenizeButton = view.findViewById(R.id.tokenize_button);
 
       // Reference the URI TextView View
       final TextView sampleUri = view.findViewById(R.id.sample_uri);
+      final EditText sampleUriText = view.findViewById(R.id.sample_uri_edit);
+      final Button samplePlayButton = view.findViewById(R.id.play_button);
 
       final View x = view;
+
       tokenizeButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           final Sample sample = (Sample) x.getTag();
 
-          // Tokenization URL
+            // Tokenization URL
           String url = "https://hbswcfox.deltatre.net/api/api-akamai/tokenize";
 
           try
@@ -467,8 +473,15 @@ public class SampleChooserActivity extends Activity
                           String tokenizedUrl = response.get("ContentUrl").toString();
 
                           // Set the text value on the object and text view
-                          sampleUri.setText(tokenizedUrl);
+                            sampleUri.setText(tokenizedUrl);
+                            sampleUriText.setText(tokenizedUrl);
+                            sampleUri.setTextColor( ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
+
+                            sampleUriText.setTextColor( ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
                           ((UriSample) sample).uri = Uri.parse(tokenizedUrl);
+
+                            samplePlayButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
+
 
                         }
                         catch (JSONException exc) {
@@ -608,105 +621,44 @@ public class SampleChooserActivity extends Activity
             TimeZone localZone = TimeZone.getDefault();
 
             // Get the TV's local time zone ID
-            ZoneId localZoneId = localZone.toZoneId();
+        //    ZoneId localZoneId = localZone.toZoneId();
 
             // Get the IBC Time Zone from the start date/time
             ZonedDateTime ibcDateTime = ((UriSample) sample).startDateTime;
 
             // Get a short time format
-            DateTimeFormatter timeFormat =  DateTimeFormatter.ofPattern("HH:mm a ");
+          //  DateTimeFormatter timeFormat =  DateTimeFormatter.ofPattern("HH:mm a ");
 
             // Set the start date/time with the formatter
-            sampleStartDateTime.setText(ibcDateTime.withZoneSameInstant(localZoneId).toLocalTime().format(timeFormat) + localZoneId.getDisplayName(TextStyle.FULL, Locale.US));
+         //   sampleStartDateTime.setText(ibcDateTime.withZoneSameInstant(localZoneId).toLocalTime().format(timeFormat) + localZoneId.getDisplayName(TextStyle.FULL, Locale.US));
       }
       else {
             // Set it to blank
             sampleStartDateTime.setText("");
         }
 
-        // Reference the URI TextView View
+        // Reference the Views
         final TextView sampleUri = view.findViewById(R.id.sample_uri);
+        final EditText sampleUriEdit = view.findViewById(R.id.sample_uri_edit);
+        final Button tokenizeButton = view.findViewById(R.id.tokenize_button);
+        final Button playButton = view.findViewById(R.id.play_button);
 
-        // Set the text value
-        sampleUri.setText(((UriSample) sample).uri.toString());
+        // Cast to UriSample
+        UriSample uriSample = ((UriSample) sample);
 
+        // Set the text values
+        sampleUri.setText(uriSample.uri.toString());
+        sampleUriEdit.setText(uriSample.uri.toString());
 
-
-        /*
-        sampleUri.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    sampleUri.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.showSoftInput(sampleUri, InputMethodManager.SHOW_IMPLICIT);
-                        }
-                    });
-                }
-                else
-                {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-      final Button playButton = view.findViewById(R.id.play_button);
-
-      sampleUri.setOnKeyListener(new OnKeyListener() {
-
-          public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-            //If the keyevent is a key-down event on the "enter" button
-            if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                view.clearFocus();
-                view.setFocusable(false);
-
-                playButton.setFocusable(true);
-                playButton.requestFocus();
-                return true;
-            }
-            return false;
+        if (uriSample.editable) {
+            sampleUri.setVisibility(View.GONE);
+            sampleUriEdit.setVisibility(View.VISIBLE);
+            playButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
         }
-    });
-
-      playButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-          @Override
-          public void onFocusChange(View v, boolean hasFocus) {
-              if (hasFocus) {
-                  playButton.setTextColor(0xff669900);
-              }
-              else
-                  playButton.setTextColor(0xffcc0000);
-
-
-          }
-      });
-
-        playButton.setOnKeyListener(new OnKeyListener() {
-
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                //If the keyevent is a key-down event on the "enter" button
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_TAB)) {
-                    view.clearFocus();
-                    view.setFocusable(false);
-                    return true;
-                }
-                return false;
-            }
-        });
-*/
-
-/*
-    boolean canDownload = getDownloadUnsupportedStringId(sample) == 0;
-    boolean isDownloaded = canDownload && downloadTracker.isDownloaded(((UriSample) sample).uri);
-      ImageButton downloadButton = view.findViewById(R.id.download_button);
-      downloadButton.setTag(sample);
-      downloadButton.setColorFilter(
-          canDownload ? (isDownloaded ? 0xFF42A5F5 : 0xFFBDBDBD) : 0xFFEEEEEE);
-      downloadButton.setImageResource(
-          isDownloaded ? R.drawable.ic_download_done : R.drawable.ic_download);
-*/
+        else {
+            sampleUri.setVisibility(View.VISIBLE);
+            sampleUriEdit.setVisibility(View.GONE);
+        }
 
     }
   }
@@ -778,6 +730,7 @@ public class SampleChooserActivity extends Activity
   private static final class UriSample extends Sample {
 
     public Uri uri;
+    public boolean editable;
     public final String extension;
     public final ZonedDateTime startDateTime;
     public final String adTagUri;
@@ -788,11 +741,13 @@ public class SampleChooserActivity extends Activity
         String abrAlgorithm,
         DrmInfo drmInfo,
         Uri uri,
+        boolean editable,
         String extension,
         ZonedDateTime startDateTime,
         String adTagUri) {
       super(name, preferExtensionDecoders, abrAlgorithm, drmInfo);
       this.uri = uri;
+      this.editable = editable;
       this.extension = extension;
       this.startDateTime = startDateTime;
       this.adTagUri = adTagUri;
@@ -802,6 +757,7 @@ public class SampleChooserActivity extends Activity
     public Intent buildIntent(Context context) {
       return super.buildIntent(context)
           .setData(uri)
+          .putExtra("editable", editable)
           .putExtra(PlayerActivity.EXTENSION_EXTRA, extension)
           .putExtra(PlayerActivity.AD_TAG_URI_EXTRA, adTagUri)
           .setAction(PlayerActivity.ACTION_VIEW);

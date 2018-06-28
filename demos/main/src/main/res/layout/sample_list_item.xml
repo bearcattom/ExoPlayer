@@ -45,7 +45,7 @@
       android:textSize="10sp"
       />
 
-  <TextView android:id="@+id/sample_uri"
+    <TextView android:id="@+id/sample_uri"
       android:layout_width="0dp"
       android:layout_weight="3"
       android:layout_height="wrap_content"
@@ -53,7 +53,20 @@
       android:focusable="false"
       android:singleLine="true"
       />
-  <Button
+
+    <EditText android:id="@+id/sample_uri_edit"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:inputType="textUri"
+        android:nextFocusRight="@id/play_button"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:focusable="true"
+        android:singleLine="true"
+        />
+
+    <Button
       android:focusable="true"
       android:id="@+id/tokenize_button"
       android:nextFocusRight="@+id/play_button"
@@ -71,7 +84,7 @@
         android:layout_height="wrap_content"
         android:defaultFocusHighlightEnabled="true"
         android:contentDescription="@string/play_button"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_red_dark"
         android:text="@string/play_button" />
 
 </LinearLayout>

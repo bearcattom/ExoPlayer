@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.C.ContentType;
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -140,7 +141,7 @@ public class PlayerActivity extends Activity
   private MediaSource mediaSource;
   private DefaultTrackSelector trackSelector;
   private DefaultTrackSelector.Parameters trackSelectorParameters;
-  private DebugTextViewHelper debugViewHelper;
+  private DebugTracer debugViewHelper;
   private TrackGroupArray lastSeenTrackGroupArray;
 
   private boolean startAutoPlay;
@@ -380,11 +381,14 @@ public class PlayerActivity extends Activity
 
       boolean preferExtensionDecoders =
           intent.getBooleanExtra(PREFER_EXTENSION_DECODERS_EXTRA, false);
+      preferExtensionDecoders = true;
+
       @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
           ((DemoApplication) getApplication()).useExtensionRenderers()
               ? (preferExtensionDecoders ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
               : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
               : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+
       DefaultRenderersFactory renderersFactory =
           new DefaultRenderersFactory(this, extensionRendererMode);
 
@@ -395,13 +399,34 @@ public class PlayerActivity extends Activity
       player =
               ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, new DefaultLoadControl(), drmSessionManager);
 
-      player.addListener(new PlayerEventListener());
+      player.addListener(new PlayerEventListener() {
+
+        public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+          Object x = manifest;
+          int windowCount = timeline.getWindowCount();
+
+
+          if (windowCount > 0) {
+            Timeline.Window lastWindow = new Timeline.Window();
+            timeline.getWindow(windowCount-1, lastWindow);
+
+            if (lastWindow.isDynamic) {
+              // Display LIVE Banner, Update debug
+
+            }
+
+
+          }
+        }
+
+       }
+      );
 
       player.setPlayWhenReady(startAutoPlay);
       player.addAnalyticsListener(new EventLogger(trackSelector));
       playerView.setPlayer(player);
       playerView.setPlaybackPreparer(this);
-      debugViewHelper = new DebugTextViewHelper(player, debugTextView);
+      debugViewHelper = new DebugTracer(player, debugTextView);
       debugViewHelper.start();
 
       MediaSource[] mediaSources = new MediaSource[uris.length];
