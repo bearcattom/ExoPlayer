@@ -16,11 +16,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
         versionName project.ext.releaseVersion
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion project.ext.targetSdkVersion
     }
 
@@ -39,6 +38,7 @@ android {
         disable 'MissingTranslation'
     }
 
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {

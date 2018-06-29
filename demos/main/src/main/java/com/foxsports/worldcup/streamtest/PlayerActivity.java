@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.C.ContentType;
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultLoadControl.Builder;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -62,6 +63,7 @@ import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifestParser;
 import com.google.android.exoplayer2.source.dash.manifest.RepresentationKey;
+import com.google.android.exoplayer2.source.hls.HlsManifest;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistParser;
 import com.google.android.exoplayer2.source.hls.playlist.RenditionKey;
@@ -398,6 +400,12 @@ public class PlayerActivity extends Activity
       trackSelector.setParameters(trackSelectorParameters);
       lastSeenTrackGroupArray = null;
 
+      // Builder
+      DefaultLoadControl.Builder builder = new DefaultLoadControl.Builder();
+
+      builder.setBufferDurationsMs(15000,50000,2500,5000);
+      builder.setPrioritizeTimeOverSizeThresholds(true);
+//      builder.setTargetBufferBytes()
       player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector, new DefaultLoadControl(), drmSessionManager);
 
       player.addListener(new PlayerEventListener() {
@@ -405,6 +413,8 @@ public class PlayerActivity extends Activity
         public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
           Object x = manifest;
           int windowCount = timeline.getWindowCount();
+
+            HlsManifest hlsManifest = (HlsManifest) manifest;
 
 
           if (windowCount > 0) {
@@ -417,8 +427,6 @@ public class PlayerActivity extends Activity
             else {
                 liveTextView.setVisibility(View.GONE);
             }
-
-
 
           }
         }

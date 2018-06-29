@@ -20,7 +20,10 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
+import com.google.android.exoplayer2.source.hls.HlsManifest;
+
 import java.util.Locale;
 
 /**
@@ -35,6 +38,28 @@ public class DebugTracer extends Player.DefaultEventListener implements Runnable
     private final TextView textView;
 
     private boolean started;
+
+
+    public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+        Object x = manifest;
+        int windowCount = timeline.getWindowCount();
+
+        HlsManifest hlsManifest = (HlsManifest) manifest;
+
+
+        if (windowCount > 0) {
+            Timeline.Window lastWindow = new Timeline.Window();
+            timeline.getWindow(windowCount-1, lastWindow);
+
+            if (lastWindow.isDynamic) {
+
+                int segmentSize = hlsManifest.mediaPlaylist.segments.size();
+                long duration = hlsManifest.mediaPlaylist.targetDurationUs;
+            }
+
+        }
+    }
+
 
     /**
      * @param player The {@link SimpleExoPlayer} from which debug information should be obtained.

@@ -25,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.JsonReader;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +45,10 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Collections;
 import java.util.List;
-import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.UnsupportedEncodingException;
@@ -61,7 +56,6 @@ import java.io.UnsupportedEncodingException;
 import android.view.View.OnKeyListener;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
-import java.time.format.DateTimeFormatter;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 import com.android.volley.Request;
@@ -93,7 +87,7 @@ public class SampleChooserActivity extends Activity
     sampleListView.setAdapter(sampleAdapter);
     sampleListView.setItemsCanFocus(true);
 
-   Intent intent = getIntent();
+    Intent intent = getIntent();
     String dataUri = intent.getDataString();
 
     String[] uris;
@@ -105,9 +99,7 @@ public class SampleChooserActivity extends Activity
       try {
         for (String asset : assetManager.list("")) {
           if (asset.endsWith(".exolist.json")) {
-          //  uriList.add("http://hisense-fox.azurewebsites.net/streamtest/media.exolist.json");
-              uriList.add("asset:///" + asset);
-
+            uriList.add("http://hisense-fox.azurewebsites.net/streamtest/media.exolist.json");
           }
         }
       } catch (IOException e) {
@@ -296,7 +288,6 @@ public class SampleChooserActivity extends Activity
                 editable = reader.nextBoolean();
                 break;
           case "startDateTime":
-//              startDateTime = ZonedDateTime.parse(reader.nextString(), dtFormatter);
               reader.nextString();
             break;
           case "extension":
@@ -487,7 +478,7 @@ public class SampleChooserActivity extends Activity
                           ((UriSample) sample).uri = Uri.parse(tokenizedUrl);
 
                             samplePlayButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
-
+                            samplePlayButton.requestFocus();
 
                         }
                         catch (JSONException exc) {
@@ -519,7 +510,7 @@ public class SampleChooserActivity extends Activity
                 /** Passing some request headers* */
                 @Override
                 public Map<String,String> getHeaders() throws AuthFailureError {
-                  HashMap<String,String> headers = new HashMap();
+                  HashMap<String,String> headers = new HashMap<String,String>();
                   headers.put("Content-Type", "application/json");
                   headers.put("Referer", "https://api.foxsports.com/dev-hbs-wcfox-tal/api.foxsports.com");
                   return headers;
@@ -536,7 +527,6 @@ public class SampleChooserActivity extends Activity
                 }
               }
             };
-
 
             // Access the RequestQueue through your singleton class.
             MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -614,12 +604,6 @@ public class SampleChooserActivity extends Activity
       return true;
     }
 
-
-      public void hideKeyboard(View view) {
-          InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-          inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY );
-      }
-
     private void initializeChildView(View view, final Sample sample) {
 
         // Set Tag to Item
@@ -628,32 +612,6 @@ public class SampleChooserActivity extends Activity
         // Set the Title
         TextView sampleTitle = view.findViewById(R.id.sample_title);
         sampleTitle.setText(sample.name);
-
-        // Reference the Start Date/Time TextView
-      //  TextView sampleStartDateTime = view.findViewById(R.id.sample_startDateTime);
-
-        // Set the Start Date/Time value, if available
-        if (((UriSample) sample).startDateTime != null)
-        {
-            // Get the TV's local time zone
-            TimeZone localZone = TimeZone.getDefault();
-
-            // Get the TV's local time zone ID
-        //    ZoneId localZoneId = localZone.toZoneId();
-
-            // Get the IBC Time Zone from the start date/time
-            ZonedDateTime ibcDateTime = ((UriSample) sample).startDateTime;
-
-            // Get a short time format
-          //  DateTimeFormatter timeFormat =  DateTimeFormatter.ofPattern("HH:mm a ");
-
-            // Set the start date/time with the formatter
-         //   sampleStartDateTime.setText(ibcDateTime.withZoneSameInstant(localZoneId).toLocalTime().format(timeFormat) + localZoneId.getDisplayName(TextStyle.FULL, Locale.US));
-      }
-      else {
-            // Set it to blank
-       //     sampleStartDateTime.setText("");
-        }
 
         // Reference the Views
         final TextView sampleUri = view.findViewById(R.id.sample_uri);
@@ -664,18 +622,20 @@ public class SampleChooserActivity extends Activity
         // Cast to UriSample
         UriSample uriSample = ((UriSample) sample);
 
-        // Set the text values
-        sampleUri.setText(uriSample.uri.toString());
-        sampleUriEdit.setText(uriSample.uri.toString());
+        if (uriSample != null) {
+          // Set the text values
+          sampleUri.setText(uriSample.uri.toString());
+          sampleUriEdit.setText(uriSample.uri.toString());
 
-        if (uriSample.editable) {
+          if (uriSample.editable) {
             sampleUri.setVisibility(View.GONE);
             sampleUriEdit.setVisibility(View.VISIBLE);
             playButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_green_dark));
-        }
-        else {
+          }
+          else {
             sampleUri.setVisibility(View.VISIBLE);
             sampleUriEdit.setVisibility(View.GONE);
+          }
         }
 
     }
