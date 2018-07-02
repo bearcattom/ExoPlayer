@@ -15,8 +15,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="2810"
-    android:versionName="2.8.10"
+    android:versionCode="2812"
     package="com.foxsports.worldcup.streamtest">
 
   <uses-permission android:name="android.permission.INTERNET"/>
@@ -24,10 +23,8 @@
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-
   <uses-feature android:name="android.software.leanback" android:required="true"/>
   <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
-  <uses-feature android:name="android.hardware.wifi" android:required="true" />
   <uses-sdk/>
 
   <application
@@ -48,10 +45,6 @@
           <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="http"/>
-        <data android:scheme="https"/>
-        />
       </intent-filter>
     </activity>
 
@@ -64,11 +57,6 @@
       <intent-filter>
         <action android:name="com.foxsports.worldcup.streamtest.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
-        <data android:scheme="http"/>
-        <data android:scheme="https"/>
-        <data android:scheme="content"/>
-        <data android:scheme="asset"/>
-        <data android:scheme="file"/>
       </intent-filter>
       <intent-filter>
         <action android:name="com.google.android.exoplayer.demo.action.VIEW_LIST"/>

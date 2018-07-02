@@ -32,6 +32,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.exoplayer2.ParserException;
@@ -616,7 +617,6 @@ public class SampleChooserActivity extends Activity
         // Reference the Views
         final TextView sampleUri = view.findViewById(R.id.sample_uri);
         final EditText sampleUriEdit = view.findViewById(R.id.sample_uri_edit);
-        final Button tokenizeButton = view.findViewById(R.id.tokenize_button);
         final Button playButton = view.findViewById(R.id.play_button);
 
         // Cast to UriSample
