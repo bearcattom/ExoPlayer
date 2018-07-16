@@ -15,7 +15,7 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         versionName project.ext.releaseVersion
@@ -38,7 +38,7 @@ android {
         disable 'MissingTranslation'
     }
 
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.0'
 }
 
 dependencies {
