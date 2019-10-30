@@ -1,3 +1,11 @@
+<figure class="video_container">
+
+  <video controls="true" allowfullscreen="true" poster="black.png">
+    <source src="untitled.webm" type="video/webm">
+  </video>
+</figure>
+
+
 # ExoPlayer #
 
 ExoPlayer is an application level media player for Android. It provides an
